@@ -229,6 +229,7 @@ int main(void)
   /* Uncomment the 3 calls to BSP_MotorControl_Init below to initialize the   */
   /* devices with the union declared in the the main.c file and comment the   */
   /* 3 subsequent calls having the NULL pointer                               */
+
   //BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice0);
   //BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice1);
   //BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice2);
@@ -586,7 +587,7 @@ void MyFlagInterruptHandler(void)
     //thermal status: 1: Warning, 2: Bridge shutdown, 3: Device shutdown
   }    
 
-  /* Check OCD  flag: if not set, there is an overcurrent detection */
+  /* Check OCD flag: if not set, there is an overcurrent detection */
   if ((statusRegister & POWERSTEP01_STATUS_OCD) == 0)
   {
     //overcurrent detection 
