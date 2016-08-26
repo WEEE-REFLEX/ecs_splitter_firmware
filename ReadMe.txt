@@ -1,12 +1,12 @@
 Install instructions for OpenSTM32 System Workbench aka SW4STM (installed with stand alone installer)
-I won't follow automatic procedure with auto-download of HAL drivers in order to understand what's going on under the hood
-I will get MCU headers and sources from examples of X-Nucleo-Spn3, but not IDE-specific configuration files
-I will manually set Includes, Build Variables and so on...
+I won't follow automatic procedure of SW4STM with auto-download of HAL drivers in order to understand what's going on under the hood
+I will get MCU headers and sources from examples of X-Nucleo-Spn3 as well as SW4STM configuration files
+Unfortunately, manually setting includes, linked resources, startup files and linker scripts results in a real mess.
 
 The structure will be like this:
 - ecs_splitter_firmware folder (main, that is under version control): contains only source&headers that are project-specific
 - STM32CubeExpansion-SPN3_V1.2.0: as downloaded by ST; we will use only shield-specific files from here*
-- STM32Cube_FW_F4_V1.13.0: as downloaded by ST; we will use drivers files from here*
 
-*HAL drivers can come from X-Nucleo-Spn3 xor from STM32Cube_FW_F4. I let the user decide which set has to be used.
+*HAL drivers can also come from STM32Cube_FW_F4. We are using those of STM32CubeExpansion-SPN3_V1.2.0 since they are already available.
+Please notice that they can differ.
 

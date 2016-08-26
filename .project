@@ -86,6 +86,11 @@
 			<locationURI>XNUCLEOSPN3DRIVER_LOC/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pwr_ex.c</name>
+			<type>1</type>
+			<locationURI>XNUCLEOSPN3DRIVER_LOC/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rcc.c</name>
 			<type>1</type>
 			<locationURI>XNUCLEOSPN3DRIVER_LOC/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c</locationURI>
@@ -109,11 +114,6 @@
 			<name>Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim_ex.c</name>
 			<type>1</type>
 			<locationURI>XNUCLEOSPN3DRIVER_LOC/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</locationURI>
-		</link>
-		<link>
-			<name>Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pwr_ex.c</name>
-			<type>1</type>
-			<locationURI>XNUCLEOSPN3DRIVER_LOC/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/BSP/Components/powerstep01</name>
@@ -142,6 +142,10 @@
 		</link>
 	</linkedResources>
 	<variableList>
+		<variable>
+			<name>CUBEDRIVER_LOC</name>
+			<value>file:/D:/Applicazioni/Elettronica/Nucleo64/STM32Cube_FW_F4_V1.13.0</value>
+		</variable>
 		<variable>
 			<name>XNUCLEOSPN3DRIVER_LOC</name>
 			<value>file:/D:/Applicazioni/Elettronica/Nucleo64/STM32CubeExpansion-SPN3_V1.2.0/Drivers</value>
