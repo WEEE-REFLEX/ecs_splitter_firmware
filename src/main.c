@@ -1,46 +1,7 @@
-/**
-  ******************************************************************************
-  * @file    Multi/Examples/MotionControl/IHM03A1_ExampleFor3Motors/Src/main.c 
-  * @author  IPC Rennes
-  * @version V1.2.0
-  * @date    January 25th, 2016
-  * @brief   This example shows how to use 3 Powerstep01 devices
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-    
-/** @addtogroup IHM03A1_Example_for_3_motor_devices
-  * @{
-  */ 
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -48,101 +9,7 @@
 /* Private variables ---------------------------------------------------------*/
 static volatile uint16_t gLastError;
 
-union powerstep01_Init_u initDeviceParametersDevice0 =
-{
-  /* common parameters */
-  .cm.cp.cmVmSelection = POWERSTEP01_CM_VM_CURRENT, // enum powerstep01_CmVm_t
-  582, // Acceleration rate in step/s2, range 14.55 to 59590 steps/s^2
-  582, // Deceleration rate in step/s2, range 14.55 to 59590 steps/s^2
-  488, // Maximum speed in step/s, range 15.25 to 15610 steps/s
-  0, // Minimum speed in step/s, range 0 to 976.3 steps/s
-  POWERSTEP01_LSPD_OPT_OFF, // Low speed optimization bit, enum powerstep01_LspdOpt_t
-  244.16, // Full step speed in step/s, range 7.63 to 15625 steps/s
-  POWERSTEP01_BOOST_MODE_OFF, // Boost of the amplitude square wave, enum powerstep01_BoostMode_t
-  281.25, // Overcurrent threshold settings via enum powerstep01_OcdTh_t
-  STEP_MODE_1_16, // Step mode settings via enum motorStepMode_t
-  POWERSTEP01_SYNC_SEL_DISABLED, // Synch. Mode settings via enum powerstep01_SyncSel_t
-  (POWERSTEP01_ALARM_EN_OVERCURRENT|
-   POWERSTEP01_ALARM_EN_THERMAL_SHUTDOWN|
-   POWERSTEP01_ALARM_EN_THERMAL_WARNING|
-   POWERSTEP01_ALARM_EN_UVLO|
-   POWERSTEP01_ALARM_EN_STALL_DETECTION|
-   POWERSTEP01_ALARM_EN_SW_TURN_ON|
-   POWERSTEP01_ALARM_EN_WRONG_NPERF_CMD), // Alarm settings via bitmap enum powerstep01_AlarmEn_t
-  POWERSTEP01_IGATE_64mA, // Gate sink/source current via enum powerstep01_Igate_t 
-  POWERSTEP01_TBOOST_0ns, // Duration of the overboost phase during gate turn-off via enum powerstep01_Tboost_t
-  POWERSTEP01_TCC_500ns, // Controlled current time via enum powerstep01_Tcc_t
-  POWERSTEP01_WD_EN_DISABLE, // External clock watchdog, enum powerstep01_WdEn_t  
-  POWERSTEP01_TBLANK_375ns, // Duration of the blanking time via enum powerstep01_TBlank_t
-  POWERSTEP01_TDT_125ns, // Duration of the dead time via enum powerstep01_Tdt_t
-  /* current mode parameters */
-  328.12, // Hold torque in mV, range from 7.8mV to 1000 mV
-  328.12, // Running torque in mV, range from 7.8mV to 1000 mV 
-  328.12, // Acceleration torque in mV, range from 7.8mV to 1000 mV
-  328.12, // Deceleration torque in mV, range from 7.8mV to 1000 mV
-  POWERSTEP01_TOFF_FAST_8us, //Maximum fast decay time , enum powerstep01_ToffFast_t 
-  POWERSTEP01_FAST_STEP_12us, //Maximum fall step time , enum powerstep01_FastStep_t 
-  3.0, // Minimum on-time in us, range 0.5us to 64us
-  21.0, // Minimum off-time in us, range 0.5us to 64us 
-  POWERSTEP01_CONFIG_INT_16MHZ_OSCOUT_2MHZ, // Clock setting , enum powerstep01_ConfigOscMgmt_t
-  POWERSTEP01_CONFIG_SW_HARD_STOP, // External switch hard stop interrupt mode, enum powerstep01_ConfigSwMode_t
-  POWERSTEP01_CONFIG_TQ_REG_TVAL_USED, // External torque regulation enabling , enum powerstep01_ConfigEnTqReg_t
-  POWERSTEP01_CONFIG_VS_COMP_DISABLE, // Motor Supply Voltage Compensation enabling , enum powerstep01_ConfigEnVscomp_t 
-  POWERSTEP01_CONFIG_OC_SD_DISABLE, // Over current shutwdown enabling, enum powerstep01_ConfigOcSd_t
-  POWERSTEP01_CONFIG_UVLOVAL_LOW, // UVLO Threshold via powerstep01_ConfigUvLoVal_t
-  POWERSTEP01_CONFIG_VCCVAL_15V, // VCC Val, enum powerstep01_ConfigVccVal_t
-  POWERSTEP01_CONFIG_TSW_048us, // Switching period, enum powerstep01_ConfigTsw_t
-  POWERSTEP01_CONFIG_PRED_DISABLE, // Predictive current enabling , enum powerstep01_ConfigPredEn_t
-};
-
-union powerstep01_Init_u initDeviceParametersDevice1 =
-{
-  /* common parameters */
-  .cm.cp.cmVmSelection = POWERSTEP01_CM_VM_CURRENT, // enum powerstep01_CmVm_t
-  582, // Acceleration rate in step/s2, range 14.55 to 59590 steps/s^2
-  582, // Deceleration rate in step/s2, range 14.55 to 59590 steps/s^2
-  488, // Maximum speed in step/s, range 15.25 to 15610 steps/s
-  0, // Minimum speed in step/s, range 0 to 976.3 steps/s
-  POWERSTEP01_LSPD_OPT_OFF, // Low speed optimization bit, enum powerstep01_LspdOpt_t
-  244.16, // Full step speed in step/s, range 7.63 to 15625 steps/s
-  POWERSTEP01_BOOST_MODE_OFF, // Boost of the amplitude square wave, enum powerstep01_BoostMode_t
-  281.25, // Overcurrent threshold settings via enum powerstep01_OcdTh_t
-  STEP_MODE_1_16, // Step mode settings via enum motorStepMode_t
-  POWERSTEP01_SYNC_SEL_DISABLED, // Synch. Mode settings via enum powerstep01_SyncSel_t
-  (POWERSTEP01_ALARM_EN_OVERCURRENT|
-   POWERSTEP01_ALARM_EN_THERMAL_SHUTDOWN|
-   POWERSTEP01_ALARM_EN_THERMAL_WARNING|
-   POWERSTEP01_ALARM_EN_UVLO|
-   POWERSTEP01_ALARM_EN_STALL_DETECTION|
-   POWERSTEP01_ALARM_EN_SW_TURN_ON|
-   POWERSTEP01_ALARM_EN_WRONG_NPERF_CMD), // Alarm settings via bitmap enum powerstep01_AlarmEn_t
-  POWERSTEP01_IGATE_64mA, // Gate sink/source current via enum powerstep01_Igate_t 
-  POWERSTEP01_TBOOST_0ns, // Duration of the overboost phase during gate turn-off via enum powerstep01_Tboost_t
-  POWERSTEP01_TCC_500ns, // Controlled current time via enum powerstep01_Tcc_t
-  POWERSTEP01_WD_EN_DISABLE, // External clock watchdog, enum powerstep01_WdEn_t  
-  POWERSTEP01_TBLANK_375ns, // Duration of the blanking time via enum powerstep01_TBlank_t
-  POWERSTEP01_TDT_125ns, // Duration of the dead time via enum powerstep01_Tdt_t
-  /* current mode parameters */
-  328.12, // Hold torque in mV, range from 7.8mV to 1000 mV
-  328.12, // Running torque in mV, range from 7.8mV to 1000 mV 
-  328.12, // Acceleration torque in mV, range from 7.8mV to 1000 mV
-  328.12, // Deceleration torque in mV, range from 7.8mV to 1000 mV
-  POWERSTEP01_TOFF_FAST_8us, //Maximum fast decay time , enum powerstep01_ToffFast_t 
-  POWERSTEP01_FAST_STEP_12us, //Maximum fall step time , enum powerstep01_FastStep_t 
-  3.0, // Minimum on-time in us, range 0.5us to 64us
-  21.0, // Minimum off-time in us, range 0.5us to 64us 
-  POWERSTEP01_CONFIG_INT_16MHZ_OSCOUT_2MHZ, // Clock setting , enum powerstep01_ConfigOscMgmt_t
-  POWERSTEP01_CONFIG_SW_HARD_STOP, // External switch hard stop interrupt mode, enum powerstep01_ConfigSwMode_t
-  POWERSTEP01_CONFIG_TQ_REG_TVAL_USED, // External torque regulation enabling , enum powerstep01_ConfigEnTqReg_t
-  POWERSTEP01_CONFIG_VS_COMP_DISABLE, // Motor Supply Voltage Compensation enabling , enum powerstep01_ConfigEnVscomp_t 
-  POWERSTEP01_CONFIG_OC_SD_DISABLE, // Over current shutwdown enabling, enum powerstep01_ConfigOcSd_t
-  POWERSTEP01_CONFIG_UVLOVAL_LOW, // UVLO Threshold via powerstep01_ConfigUvLoVal_t
-  POWERSTEP01_CONFIG_VCCVAL_15V, // VCC Val, enum powerstep01_ConfigVccVal_t
-  POWERSTEP01_CONFIG_TSW_048us, // Switching period, enum powerstep01_ConfigTsw_t
-  POWERSTEP01_CONFIG_PRED_DISABLE, // Predictive current enabling , enum powerstep01_ConfigPredEn_t
-};
-
-union powerstep01_Init_u initDeviceParametersDevice2 =
+union powerstep01_Init_u initDeviceParametersDevice =
 {
   /* common parameters */
   .cm.cp.cmVmSelection = POWERSTEP01_CM_VM_CURRENT, // enum powerstep01_CmVm_t
@@ -209,12 +76,25 @@ int main(void)
   uint16_t myDeceleration;
   uint32_t readData;
 
+  struct motor_type{
+	  uint32_t step_per_cycle = 200;
+	  double gearbox_ratio = 6.5637;
+  } motor_nema;
+
   /* STM32F4xx HAL library initialization */
   HAL_Init();
   
-  /* Configure the system clock */
-  SystemClock_Config();
+    /* Configure the system clock */
+    SystemClock_Config();
+
+  	/* Initialize all configured peripherals */
+    MX_GPIO_Init();
+    MX_USART2_UART_Init();
     
+    char *msg = "Powerstep01 running test\n\r";
+    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
+
+
 //----- Init of the Powerstep01 library 
   /* Set the Powerstep01 library to use 3 devices */
   BSP_MotorControl_SetNbDevices(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, 3);
@@ -230,12 +110,13 @@ int main(void)
   /* devices with the union declared in the the main.c file and comment the   */
   /* 3 subsequent calls having the NULL pointer                               */
 
-  //BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice0);
-  //BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice1);
-  //BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice2);
-  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, NULL);
-  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, NULL);
-  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, NULL);
+  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice);
+  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice);
+  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, &initDeviceParametersDevice);
+
+//  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, NULL);
+//  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, NULL);
+//  BSP_MotorControl_Init(BSP_MOTOR_CONTROL_BOARD_ID_POWERSTEP01, NULL);
   
   /* Attach the function MyFlagInterruptHandler (defined below) to the flag interrupt */
   BSP_MotorControl_AttachFlagInterrupt(MyFlagInterruptHandler);
@@ -500,6 +381,7 @@ int main(void)
   */
 void MyFlagInterruptHandler(void)
 {
+  char *msg;
   /* Get the value of the status register via the command GET_STATUS */
   uint16_t statusRegister = BSP_MotorControl_CmdGetStatus(0);
 
@@ -519,10 +401,14 @@ void MyFlagInterruptHandler(void)
   if ((statusRegister & POWERSTEP01_STATUS_SW_F ) == 0)
   {
      // SW OPEN
+	 *msg = "SW_F flag not set: Switch input open.\n\r";
+	 HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
   }
   else
   {
-    // SW CLOSED   
+    // SW CLOSED
+	  *msg = "SW_F flag not set: Switch input closed.\n\r";
+	  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
   }  
   /* Check SW_EN bit */
   if ((statusRegister & POWERSTEP01_STATUS_SW_EVN) == POWERSTEP01_STATUS_SW_EVN)
@@ -573,6 +459,9 @@ void MyFlagInterruptHandler(void)
   if ((statusRegister & POWERSTEP01_STATUS_UVLO) == 0)
   {
      //undervoltage lock-out 
+	 *msg = "UVLO flag not set: undervoltage lock-out.\n\r";
+	 HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
+
   }  
 
   /* Check UVLO ADC flag: if not set, there is an ADC undervoltage lock-out */
@@ -585,24 +474,46 @@ void MyFlagInterruptHandler(void)
   if ((statusRegister & POWERSTEP01_STATUS_TH_STATUS) != 0)
   {
     //thermal status: 1: Warning, 2: Bridge shutdown, 3: Device shutdown
+	  switch(POWERSTEP01_STATUS_TH_STATUS){
+	  case 1:
+		  *msg = "Thermal status 1: Warning.\n\r";
+		  break;
+	  case 2:
+		  *msg = "Thermal status 2: Bridge shutdown.\n\r";
+		  break;
+	  case 3:
+		  *msg = "Thermal status 3: Device shutdown.\n\r";
+		  break;
+	  default:
+		  *msg = "Thermal status: undefined code.\n\r";
+		  break;
+	  }
+	  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
+
   }    
 
   /* Check OCD flag: if not set, there is an overcurrent detection */
   if ((statusRegister & POWERSTEP01_STATUS_OCD) == 0)
   {
-    //overcurrent detection 
+    //overcurrent detection
+	  *msg = "OCD flag: overcurrent detected.\n\r";
+	  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
   }      
 
   /* Check STALL_A flag: if not set, there is a Stall condition on bridge A */
   if ((statusRegister & POWERSTEP01_STATUS_STALL_A) == 0)
   {
-    //overcurrent detection 
+	  //overcurrent detection
+	  *msg = "STALL_A flag: Bridge A stalled.\n\r";
+	  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
   }    
 
   /* Check STALL_B flag: if not set, there is a Stall condition on bridge B */
   if ((statusRegister & POWERSTEP01_STATUS_STALL_B) == 0)
   {
-    //overcurrent detection 
+	  //overcurrent detection
+	  *msg = "STALL_B flag: Bridge B stalled.\n\r";
+	  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
   }      
 
 }
@@ -642,6 +553,21 @@ void MyErrorHandler(uint16_t error)
   {
   }
 }
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @param[in] error Number of the error
+  * @retval None
+  */
+void Error_Handler()
+{
+
+  /* Infinite loop */
+  while(1)
+  {
+  }
+}
+
 
 #ifdef  USE_FULL_ASSERT
 

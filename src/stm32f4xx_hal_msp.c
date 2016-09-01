@@ -99,7 +99,14 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
     GPIO_InitStruct.Pin = SPIx_MOSI_PIN;
     GPIO_InitStruct.Alternate = SPIx_MOSI_AF;
       
-    HAL_GPIO_Init(SPIx_MOSI_GPIO_PORT, &GPIO_InitStruct);   
+    HAL_GPIO_Init(SPIx_MOSI_GPIO_PORT, &GPIO_InitStruct);
+
+    /* UART GPIO pin configuration  */
+	GPIO_InitStruct.Pin = SPIx_MOSI_PIN;
+	GPIO_InitStruct.Alternate = SPIx_MOSI_AF;
+
+	HAL_GPIO_Init(SPIx_MOSI_GPIO_PORT, &GPIO_InitStruct);
+
   }
 }
 

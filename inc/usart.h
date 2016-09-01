@@ -1,14 +1,11 @@
 /**
   ******************************************************************************
-  * @file    Multi/Examples/MotionControl/IHM03A1_ExampleFor3Motors/Inc/main.h 
-  * @author  IPC Rennes
-  * @version V1.2.0
-  * @date    January 25th, 2016
-  * @brief   Header for main.c module
+  * File Name          : USART.h
+  * Description        : This file provides code for the configuration
+  *                      of the USART instances.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * COPYRIGHT(c) 2016 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -34,36 +31,45 @@
   *
   ******************************************************************************
   */
-
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __usart_H
+#define __usart_H
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "motorcontrol.h"
-#include "powerstep01.h"
-#include "usart.h"
-#include "gpio.h"
-#include "string.h"
-#ifdef USE_STM32F4XX_NUCLEO
-#include "stm32f4xx_nucleo_ihm03a1.h"
-#endif
-#ifdef USE_STM32F3XX_NUCLEO
-#include "stm32f3xx_nucleo_ihm03a1.h"
-#endif
-#ifdef USE_STM32F0XX_NUCLEO
-#include "stm32f0xx_nucleo_ihm03a1.h"
-#endif
-#ifdef USE_STM32L0XX_NUCLEO
-#include "stm32l0xx_nucleo_ihm03a1.h"
-#endif
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
-void SystemClock_Config(void);
-void MyErrorHandler(uint16_t error);
-void Error_Handler(void);
+#include "stm32f4xx_hal.h"
 
-#endif /* __MAIN_H */
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+extern UART_HandleTypeDef huart2;
+
+/* USER CODE BEGIN Private defines */
+
+/* USER CODE END Private defines */
+
+extern void Error_Handler(void);
+
+void MX_USART2_UART_Init(void);
+
+/* USER CODE BEGIN Prototypes */
+
+/* USER CODE END Prototypes */
+
+#ifdef __cplusplus
+}
+#endif
+#endif /*__ usart_H */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

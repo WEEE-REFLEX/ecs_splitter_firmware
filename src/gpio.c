@@ -1,14 +1,11 @@
 /**
   ******************************************************************************
-  * @file    Multi/Examples/MotionControl/IHM03A1_ExampleFor3Motors/Inc/main.h 
-  * @author  IPC Rennes
-  * @version V1.2.0
-  * @date    January 25th, 2016
-  * @brief   Header for main.c module
+  * File Name          : gpio.c
+  * Description        : This file provides code for the configuration
+  *                      of all used GPIO pins.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * COPYRIGHT(c) 2016 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -35,35 +32,65 @@
   ******************************************************************************
   */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
-
 /* Includes ------------------------------------------------------------------*/
-#include "motorcontrol.h"
-#include "powerstep01.h"
-#include "usart.h"
 #include "gpio.h"
-#include "string.h"
-#ifdef USE_STM32F4XX_NUCLEO
-#include "stm32f4xx_nucleo_ihm03a1.h"
-#endif
-#ifdef USE_STM32F3XX_NUCLEO
-#include "stm32f3xx_nucleo_ihm03a1.h"
-#endif
-#ifdef USE_STM32F0XX_NUCLEO
-#include "stm32f0xx_nucleo_ihm03a1.h"
-#endif
-#ifdef USE_STM32L0XX_NUCLEO
-#include "stm32l0xx_nucleo_ihm03a1.h"
-#endif
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
-void SystemClock_Config(void);
-void MyErrorHandler(uint16_t error);
-void Error_Handler(void);
+/* USER CODE BEGIN 0 */
 
-#endif /* __MAIN_H */
+/* USER CODE END 0 */
+
+/*----------------------------------------------------------------------------*/
+/* Configure GPIO                                                             */
+/*----------------------------------------------------------------------------*/
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
+
+/** Configure pins as 
+        * Analog 
+        * Input 
+        * Output
+        * EVENT_OUT
+        * EXTI
+*/
+void MX_GPIO_Init(void)
+{
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = B1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = LD2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+}
+
+/* USER CODE BEGIN 2 */
+
+/* USER CODE END 2 */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
