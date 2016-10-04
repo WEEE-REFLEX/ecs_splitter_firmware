@@ -45,6 +45,12 @@
 #include "usart.h"
 #include "gpio.h"
 #include "string.h"
+#include "motor_settings.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
 #ifdef USE_STM32F4XX_NUCLEO
 #include "stm32f4xx_nucleo_ihm03a1.h"
 #endif

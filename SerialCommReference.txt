@@ -1,0 +1,22 @@
+<SS>: from A (1st splitter) to Z (26th splitter)
+each command is followed by a LF character '\n'
+
+from PC to controller
+PX<SS><float>: set positions of the splitter at X = <float>; e.g. XA2.34 --> place the 1st splitter at position X = 2.34
+PY<SS><float>: guess what...
+HB<T|F>: will ask for ACK at every command
+SSS: motor hard stop
+HHH: motor soft stop
+Q<X|Y><SS>: query motor position X or Y or both position; e.g. QXA --> the controller should return RXA2.34
+QQX: query all X motor positions; e.g. the controller will burst all RXA2.34	RXB1.73    RXC3.47
+QQY: query all Y motor positions
+QQQ: query all positions
+
+from controller to PC	
+R<X|Y><SS><float>: motor <SS> has <X|Y> position <float>; e.g. RXC3.47 --> the 3rd motor is in X position 3.47
+ACK: generic acknownledge from controller
+E<error_type><SS>
+I<info_type><SS>
+
+error_type = {U: unreachable, L: got lost :-)}
+info_type = {H: halted, S: stopped, O: overcurrent, R: reset to zero position}
